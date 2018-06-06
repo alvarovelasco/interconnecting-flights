@@ -15,7 +15,10 @@ import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 /**
  * 
- * Resolve the routes
+ * Resolve the routes between two airports regarding a set of rules that must comply:
+ * 		<ul>The route must not have interconnecting airport
+ * 		<ul>The route may be direct or
+ * 		<ul>The route may have a third airport connecting the origin and destination.
  * 
  * @author Alvaro Velasco Fernandez
  *
@@ -23,19 +26,20 @@ import com.ryanair.alvaro.interconnectingflights.model.Route;
 @Service
 public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
 
-	// TODO AVF: Add the name from the implementation of RouteResolver
+	private RouteProvider routeProvider;
+
 	@Autowired
-	private RouteRetriever routeRetriever;
-
-	// TODO AVF: Use a resource for replacing text strings
-
+	public void setRouteProvider(RouteProvider routeProvider) {
+		this.routeProvider = routeProvider;
+	}
+	
 	@Override
 	public List<FinalRoute> resolve(String expectedOrigin, String expectedDestination) {
 		requireNonNull(expectedOrigin);
 		requireNonNull(expectedDestination);
 
 		// 1. retrieve
-		List<Route> routes = routeRetriever.getRoutes();
+		List<Route> routes = routeProvider.getRoutes();
 
 		// 2. Filter routes containing origin airport or destination airport and
 		// filter routes with interconnectingAirport
@@ -60,9 +64,11 @@ public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
 					return new FinalRoute(route);
 				} else {
 					// Find the next route
-					Route theOtherRoute = routes.stream().filter(r -> route.getDestination().equals(r.getOrigin()))
-							.findFirst().orElseThrow(() -> new RouteNotFoundException());
-					return new FinalRoute(route, theOtherRoute);
+					Route theOtherRoute = routes.stream().filter(
+							r -> route.getDestination().equals(r.getOrigin()))
+													.findFirst().orElse(null);
+					if (theOtherRoute != null)
+						return new FinalRoute(route, theOtherRoute);
 				}
 			}
 

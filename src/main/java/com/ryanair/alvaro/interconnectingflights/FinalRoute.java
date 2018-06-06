@@ -19,4 +19,31 @@ public final class FinalRoute {
 	public List<Route> getRouteConcat() {
 		return Lists.newArrayList(routeConcat);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((routeConcat == null) ? 0 : routeConcat.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FinalRoute other = (FinalRoute) obj;
+		if (routeConcat == null) {
+			if (other.routeConcat != null)
+				return false;
+		} else if (!routeConcat.equals(other.routeConcat))
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -1,5 +1,8 @@
 package com.ryanair.alvaro.interconnectingflights.model;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Route {
@@ -11,6 +14,17 @@ public class Route {
 	private String destination;
 
 	private String connectingAirport;
+	
+	// To make it prettier and robust, this can be refactored using a builder pattern
+	public static final Route get(String origin, String destination, Optional<String> connectingAirport) {
+		Route route = new Route();
+		
+		route.origin = Objects.requireNonNull(origin);
+		route.destination = Objects.requireNonNull(destination);
+		route.connectingAirport = Objects.requireNonNull(connectingAirport).orElse(null);
+		
+		return route;
+	}
 
 	public String getOrigin() {
 		return origin;

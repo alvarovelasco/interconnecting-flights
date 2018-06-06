@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ryanair.alvaro.interconnectingflights.model.Route;
 
-// TODO AVF: Implementation must have @Repository annotation
-public interface RouteRetriever {
+public interface RouteProvider {
 	List<Route> getRoutes();
 }
