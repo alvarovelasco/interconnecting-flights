@@ -6,10 +6,10 @@
 	<groupId>com.ryanair.alvaro</groupId>
 	<artifactId>interconnecting-flights</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>interconnecting-flights</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Test project for travel labs</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
