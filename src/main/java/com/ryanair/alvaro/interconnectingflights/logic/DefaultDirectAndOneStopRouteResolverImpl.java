@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ryanair.alvaro.interconnectingflights.exceptions.RouteNotFoundException;
-import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
+import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 /**
@@ -32,7 +32,7 @@ public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
 	
 	
 	@Override
-	public List<FinalRoute> resolve(String expectedOrigin, String expectedDestination) {
+	public List<ResolvedRoute> resolve(String expectedOrigin, String expectedDestination) {
 		requireNonNull(expectedOrigin);
 		requireNonNull(expectedDestination);
 
@@ -46,27 +46,27 @@ public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
 				.filter(Route::noConnectingAirport).collect(Collectors.toList());
 
 		// 3. group the routes and concatenate them in case of one stop.
-		List<FinalRoute> finalRoutes = routes.stream()
+		List<ResolvedRoute> finalRoutes = routes.stream()
 				.map(getTransformRoutesIntoFinalRoutesFunction(expectedOrigin, expectedDestination, routes))
 				.filter(Objects::nonNull).collect(Collectors.toList());
 
 		return finalRoutes;
 	}
 
-	private Function<Route, FinalRoute> getTransformRoutesIntoFinalRoutesFunction(final String expectedOrigin,
+	private Function<Route, ResolvedRoute> getTransformRoutesIntoFinalRoutesFunction(final String expectedOrigin,
 			final String expectedDestination, final List<Route> routes) {
 		return (route) -> {
 			// Case with unique route
 			if (route.getOrigin().equals(expectedOrigin)) {
 				if (route.getDestination().equals(expectedDestination)) {
-					return new FinalRoute(route);
+					return new ResolvedRoute(route);
 				} else {
 					// Find the next route
 					Route theOtherRoute = routes.stream().filter(
 							r -> route.getDestination().equals(r.getOrigin()))
 													.findFirst().orElse(null);
 					if (theOtherRoute != null)
-						return new FinalRoute(route, theOtherRoute);
+						return new ResolvedRoute(route, theOtherRoute);
 				}
 			}
 

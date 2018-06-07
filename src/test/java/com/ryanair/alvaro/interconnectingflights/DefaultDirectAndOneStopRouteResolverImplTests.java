@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.ryanair.alvaro.interconnectingflights.logic.DefaultDirectAndOneStopRouteResolverImpl;
 import com.ryanair.alvaro.interconnectingflights.logic.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
+import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 /**
@@ -46,7 +46,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route rightRoute = Route.get("DUB", "MAD", Optional.of("BER"));
 		Route otherRoute = Route.get("PZN", "SKP", Optional.of("BUC"));
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(rightRoute, otherRoute));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "MAD");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(0, finalRoute.size());
 		finalRoute = resolver.resolve("PZN", "SKP");
 		assertEquals(0, finalRoute.size());
@@ -57,7 +57,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route rightRoute = Route.get("DUB", "MAD", Optional.empty());
 		Route otherRoute = Route.get("MAD", "DUB", Optional.empty());
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(rightRoute, otherRoute));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "MAD");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(1, finalRoute.size());
 		assertEquals(1, finalRoute.get(0).getRouteConcat().size());
 		assertTrue(finalRoute.get(0).getRouteConcat().contains(rightRoute));
@@ -68,7 +68,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route rightRoute = Route.get("DUB", "MAD", Optional.empty());
 		Route otherRoute = Route.get("DUB", "CPH", Optional.empty());
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(rightRoute, otherRoute));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "MAD");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(1, finalRoute.size());
 		assertEquals(1, finalRoute.get(0).getRouteConcat().size());
 		assertTrue(finalRoute.get(0).getRouteConcat().contains(rightRoute));
@@ -79,7 +79,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route route1 = Route.get("DUB", "MAD", Optional.empty());
 		Route route2 = Route.get("MAD", "CPH", Optional.empty());
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "CPH");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "CPH");
 		assertEquals(1, finalRoute.size());
 		assertEquals(2, finalRoute.get(0).getRouteConcat().size());
 		assertTrue(finalRoute.get(0).getRouteConcat().containsAll(Lists.newArrayList(route1, route2)));
@@ -91,7 +91,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route route2 = Route.get("STN", "MAD", Optional.empty());
 		Route route3 = Route.get("MAD", "CPH", Optional.empty());
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "CPH");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "CPH");
 		assertEquals(0, finalRoute.size());
 	}
 
@@ -101,7 +101,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		Route route2 = Route.get("STN", "MAD", Optional.empty());
 		Route route3 = Route.get("MAD", "CPH", Optional.empty());
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
-		List<FinalRoute> finalRoute = resolver.resolve("DUB", "BRS");
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "BRS");
 		assertEquals(0, finalRoute.size());
 	}
 

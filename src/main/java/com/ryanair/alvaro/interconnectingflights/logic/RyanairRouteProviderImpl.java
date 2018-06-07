@@ -26,7 +26,7 @@ import com.ryanair.alvaro.interconnectingflights.model.Route;
 public final class RyanairRouteProviderImpl implements RouteProvider {
 
 	@Value("${ryanair.routes.url}")
-	private String ENDPOINT_URL;
+	private String enpointUrl;
 
 	private RestTemplate restTemplate;
 
@@ -43,7 +43,7 @@ public final class RyanairRouteProviderImpl implements RouteProvider {
 
 	@Override
 	public List<Route> getRoutes() {
-		ResponseEntity<Route[]> responseEntity = restTemplate.getForEntity(ENDPOINT_URL, Route[].class);
+		ResponseEntity<Route[]> responseEntity = restTemplate.getForEntity(enpointUrl, Route[].class);
 		if (!responseEntity.getStatusCode().is2xxSuccessful()) {
 			throw new RestClientException(messageSource.getMessage("routeprovider.ryanair.error",
 					new String[] { responseEntity.getStatusCode().getReasonPhrase() }, Locale.getDefault()));

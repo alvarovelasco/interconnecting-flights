@@ -2,7 +2,7 @@ package com.ryanair.alvaro.interconnectingflights.logic;
 
 import java.util.List;
 
-import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
+import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 
 /**
  * Interface providing a method for resolving the possible routes between two airports
@@ -11,6 +11,6 @@ import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
  */
 public interface RouteResolver {
 
-	List<FinalRoute> resolve(String expectedOrigin, String expectedDestination);
+	List<ResolvedRoute> resolve(String expectedOrigin, String expectedDestination);
 
 }

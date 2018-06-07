@@ -5,11 +5,11 @@ import java.util.Objects;
 
 import org.assertj.core.util.Lists;
 
-public final class FinalRoute {
+public final class ResolvedRoute {
 
 	private final List<Route> routeConcat;
 
-	public FinalRoute(Route... routes) {
+	public ResolvedRoute(Route... routes) {
 		Objects.nonNull(routes);
 		this.routeConcat = Lists.newArrayList(routes);
 	}
@@ -34,7 +34,7 @@ public final class FinalRoute {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FinalRoute other = (FinalRoute) obj;
+		ResolvedRoute other = (ResolvedRoute) obj;
 		if (routeConcat == null) {
 			if (other.routeConcat != null)
 				return false;
