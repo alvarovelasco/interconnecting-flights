@@ -14,15 +14,16 @@ public class Route {
 	private String destination;
 
 	private String connectingAirport;
-	
-	// To make it prettier and robust, this can be refactored using a builder pattern
+
+	// To make it prettier and robust, this can be refactored using a builder
+	// pattern
 	public static final Route get(String origin, String destination, Optional<String> connectingAirport) {
 		Route route = new Route();
-		
+
 		route.origin = Objects.requireNonNull(origin);
 		route.destination = Objects.requireNonNull(destination);
 		route.connectingAirport = Objects.requireNonNull(connectingAirport).orElse(null);
-		
+
 		return route;
 	}
 
@@ -36,6 +37,12 @@ public class Route {
 
 	public boolean noConnectingAirport() {
 		return connectingAirport == null;
+	}
+
+	@Override
+	public String toString() {
+		return "Route [origin=" + origin + ", destination=" + destination + ", connectingAirport=" + connectingAirport
+				+ "]";
 	}
 
 	@Override
