@@ -1,24 +1,27 @@
 package com.ryanair.alvaro.interconnectingflights;
 
-import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.util.Lists;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.ryanair.alvaro.interconnectingflights.logic.DefaultDirectAndOneStopRouteResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.RouteProvider;
+import com.ryanair.alvaro.interconnectingflights.logic.RyanairRouteProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
 import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,13 +31,13 @@ public class RouteFilterTests {
 	@Mock
 	private RouteProvider routeProvider;
 	
-	private DefaultDirectAndOneStopRouteResolverImpl resolver;
+	@InjectMocks
+	private DefaultDirectAndOneStopRouteResolverImpl resolver= new DefaultDirectAndOneStopRouteResolverImpl();
 
+	
 	@Before
 	public void initMocks() {
 		MockitoAnnotations.initMocks(this);
-		resolver = new DefaultDirectAndOneStopRouteResolverImpl();
-		resolver.setRouteProvider(routeProvider);
 	}
 
 	@Test

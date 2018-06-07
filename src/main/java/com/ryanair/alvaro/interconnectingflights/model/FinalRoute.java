@@ -1,11 +1,9 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.model;
 
 import java.util.List;
 import java.util.Objects;
 
 import org.assertj.core.util.Lists;
-
-import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 public final class FinalRoute {
 

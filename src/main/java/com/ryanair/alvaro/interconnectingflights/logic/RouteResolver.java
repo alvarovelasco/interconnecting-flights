@@ -1,6 +1,8 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import java.util.List;
+
+import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
 
 /**
  * Interface providing a method for resolving the possible routes between two airports

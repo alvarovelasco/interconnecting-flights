@@ -1,10 +1,10 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import java.util.List;
 
 import org.assertj.core.util.Lists;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +16,7 @@ import com.ryanair.alvaro.interconnectingflights.model.Route;
  * @author Alvaro Velasco Fernandez
  *
  */
-@Repository
+@Component
 public final class RyanairRouteProviderImpl implements RouteProvider {
 
 	private static final String ENDPOINT_URL = "https://api.ryanair.com/core/3/routes";

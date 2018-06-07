@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import java.util.List;
 

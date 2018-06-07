@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import static java.util.Objects.requireNonNull;
 
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ryanair.alvaro.interconnectingflights.exceptions.RouteNotFoundException;
+import com.ryanair.alvaro.interconnectingflights.model.FinalRoute;
 import com.ryanair.alvaro.interconnectingflights.model.Route;
 
 /**
@@ -25,13 +26,10 @@ import com.ryanair.alvaro.interconnectingflights.model.Route;
  */
 @Service
 public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
-
-	private RouteProvider routeProvider;
-
+	
 	@Autowired
-	public void setRouteProvider(RouteProvider routeProvider) {
-		this.routeProvider = routeProvider;
-	}
+	private RouteProvider routeProvider;
+	
 	
 	@Override
 	public List<FinalRoute> resolve(String expectedOrigin, String expectedDestination) {
