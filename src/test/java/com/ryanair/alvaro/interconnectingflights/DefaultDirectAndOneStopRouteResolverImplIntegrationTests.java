@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ryanair.alvaro.interconnectingflights.logic.DefaultDirectAndOneStopRouteResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImpl;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 
 @RunWith(SpringRunner.class)

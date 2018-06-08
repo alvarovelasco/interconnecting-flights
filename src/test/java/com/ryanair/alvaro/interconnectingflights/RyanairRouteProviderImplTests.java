@@ -23,9 +23,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.ryanair.alvaro.interconnectingflights.logic.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.RyanairRouteProviderImpl;
-import com.ryanair.alvaro.interconnectingflights.model.Route;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**
  * Unit test class of RyanairRouteProviderImpl class.

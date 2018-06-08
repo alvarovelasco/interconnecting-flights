@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic;
+package com.ryanair.alvaro.interconnectingflights.logic.route;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,27 +10,29 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ryanair.alvaro.interconnectingflights.exceptions.RouteNotFoundException;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
-import com.ryanair.alvaro.interconnectingflights.model.Route;
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**
  * 
- * Resolve the routes between two airports regarding a set of rules that must comply:
- * 		<ul>The route must not have interconnecting airport
- * 		<ul>The route may be direct or
- * 		<ul>The route may have a third airport connecting the origin and destination.
+ * Resolve the routes between two airports regarding a set of rules that must
+ * comply:
+ * <ul>
+ * The route must not have interconnecting airport
+ * <ul>
+ * The route may be direct or
+ * <ul>
+ * The route may have a third airport connecting the origin and destination.
  * 
  * @author Alvaro Velasco Fernandez
  *
  */
 @Service
 public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
-	
+
 	@Autowired
 	private RouteProvider routeProvider;
-	
-	
+
 	@Override
 	public List<ResolvedRoute> resolve(String expectedOrigin, String expectedDestination) {
 		requireNonNull(expectedOrigin);
@@ -62,9 +64,8 @@ public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
 					return new ResolvedRoute(route);
 				} else {
 					// Find the next route
-					Route theOtherRoute = routes.stream().filter(
-							r -> route.getDestination().equals(r.getOrigin()))
-													.findFirst().orElse(null);
+					Route theOtherRoute = routes.stream().filter(r -> route.getDestination().equals(r.getOrigin()))
+							.findFirst().orElse(null);
 					if (theOtherRoute != null)
 						return new ResolvedRoute(route, theOtherRoute);
 				}

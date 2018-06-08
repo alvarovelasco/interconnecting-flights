@@ -1,11 +1,13 @@
 package com.ryanair.alvaro.interconnectingflights;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,11 +26,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.ryanair.alvaro.interconnectingflights.logic.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.RyanairScheduleProviderImpl;
-import com.ryanair.alvaro.interconnectingflights.model.Route;
-import com.ryanair.alvaro.interconnectingflights.model.ScheduledDayFlight;
-import com.ryanair.alvaro.interconnectingflights.model.ScheduledMonthFlight;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
+import com.ryanair.alvaro.interconnectingflights.logic.scheduler.RyanairScheduleProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
+import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
 /**
  * Unit test class of RyanairScheduleProviderImpl class.
@@ -42,56 +43,50 @@ import com.ryanair.alvaro.interconnectingflights.model.ScheduledMonthFlight;
 @TestPropertySource("classpath:global.properties")
 public class RyanairSchedulesProviderImplTests {
 
-		@Mock
-		private RouteProvider routeProvider;
+	@Mock
+	private RouteProvider routeProvider;
 
-		@Mock
-		private RestTemplate mockTemplate;
+	@Mock
+	private RestTemplate mockTemplate;
 
-		@Autowired
-		@InjectMocks
-		private RyanairScheduleProviderImpl providerImpl;
+	@Autowired
+	@InjectMocks
+	private RyanairScheduleProviderImpl providerImpl;
 
-		@Autowired
-		RestTemplate restTemplate;
+	@Autowired
+	RestTemplate restTemplate;
 
-		@Test
-		public void testRyanairScheduleProvider() {
-			ScheduledMonthFlight monthSchedule = getScheduledFlightsDubWroIn62018();
-			assertNotNull(monthSchedule);
-			
-			ScheduledMonthFlight.FullScheduledDay daySchedule = monthSchedule.getDays().get(0);
-			
-			assertNotNull(daySchedule);
-			assertTrue(daySchedule.getFlights().size() == 1);
-			assertEquals(7, daySchedule.getDay());
-			
-			ScheduledDayFlight dayFlight = daySchedule.getFlights().get(0);
-			assertEquals(LocalTime.of(19, 30), dayFlight.getDepartureTime());
-			assertEquals(LocalTime.of(23, 05), dayFlight.getArrivalTime());
-		}
+	@Test
+	public void testRyanairScheduleProvider() {
+		ScheduledMonthFlight monthSchedule = getScheduledFlightsDubWroInCurrentMonth();
+		assertNotNull(monthSchedule);
 
-		@Test(expected = RestClientException.class)
-		public void testRyanairScheduleProviderFailure() {
-			ResponseEntity mockResponseEntity = mock(ResponseEntity.class);
-			when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
-			when(mockTemplate.getForEntity(anyString(), eq(ScheduledMonthFlight.class), any(Map.class))).thenReturn(mockResponseEntity);
+		ScheduledMonthFlight.FullScheduledDay daySchedule = monthSchedule.getDays().get(0);
 
-			providerImpl.setRestTemplate(mockTemplate);
-			
-			getScheduledFlightsDubWroIn62018();
-		}
-		
-		private final ScheduledMonthFlight getScheduledFlightsDubWroIn62018() {
-			Route route = Route.get("DUB", "WRO", Optional.empty());
-			YearMonth yearMonth = YearMonth.of(2018, 6);
-			return providerImpl.getFlights(route, yearMonth);
-		}
+		assertNotNull(daySchedule);
+	}
 
-		@After
-		public void resetProvider() {
-			providerImpl.setRestTemplate(restTemplate);
-		}
+	@Test(expected = RestClientException.class)
+	public void testRyanairScheduleProviderFailure() {
+		ResponseEntity mockResponseEntity = mock(ResponseEntity.class);
+		when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
+		when(mockTemplate.getForEntity(anyString(), eq(ScheduledMonthFlight.class), any(Map.class)))
+				.thenReturn(mockResponseEntity);
 
+		providerImpl.setRestTemplate(mockTemplate);
+
+		getScheduledFlightsDubWroInCurrentMonth();
+	}
+
+	private final ScheduledMonthFlight getScheduledFlightsDubWroInCurrentMonth() {
+		Route route = Route.get("DUB", "WRO", Optional.empty());
+		YearMonth yearMonth = YearMonth.now();
+		return providerImpl.getFlights(route, yearMonth).orElse(null);
+	}
+
+	@After
+	public void resetProvider() {
+		providerImpl.setRestTemplate(restTemplate);
+	}
 
 }

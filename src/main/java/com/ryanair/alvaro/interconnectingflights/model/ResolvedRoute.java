@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.assertj.core.util.Lists;
 
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
+
 public final class ResolvedRoute {
 
 	private final List<Route> routeConcat;

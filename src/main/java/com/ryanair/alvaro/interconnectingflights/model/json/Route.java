@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.model;
+package com.ryanair.alvaro.interconnectingflights.model.json;
 
 import java.util.Objects;
 import java.util.Optional;

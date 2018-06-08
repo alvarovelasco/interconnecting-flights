@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic;
+package com.ryanair.alvaro.interconnectingflights.logic.route;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.ryanair.alvaro.interconnectingflights.model.Route;
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**
  * Class retrieving routes avaialble through the Ryanair API endpoint

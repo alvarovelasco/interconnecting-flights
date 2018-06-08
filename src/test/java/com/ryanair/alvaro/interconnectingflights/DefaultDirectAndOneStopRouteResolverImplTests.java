@@ -16,10 +16,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.ryanair.alvaro.interconnectingflights.logic.DefaultDirectAndOneStopRouteResolverImpl;
-import com.ryanair.alvaro.interconnectingflights.logic.RouteProvider;
+import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
-import com.ryanair.alvaro.interconnectingflights.model.Route;
+import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**
  * Unit testing DefaultDirectAndStopRouteResolver class in user cases
@@ -103,6 +103,16 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "BRS");
 		assertEquals(0, finalRoute.size());
+	}
+
+	@Test
+	public void testRoutes_destinationNotLinked() {
+		Route route1 = Route.get("DUB", "STN", Optional.empty());
+		Route route2 = Route.get("STN", "MAD", Optional.empty());
+		Route route3 = Route.get("DUB", "CPH", Optional.empty());
+		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
+		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
+		assertEquals(1, finalRoute.size());
 	}
 
 }

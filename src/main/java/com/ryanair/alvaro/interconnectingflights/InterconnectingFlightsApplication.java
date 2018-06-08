@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import com.ryanair.alvaro.interconnectingflights.logic.RyanairRouteProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImpl;
 
 @SpringBootApplication
 @Import(InterconnectingFlightsApplicationConfig.class)
