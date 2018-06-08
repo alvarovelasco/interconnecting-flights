@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.model;
+package com.ryanair.alvaro.interconnectingflights.model.json;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -8,10 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ryanair.alvaro.interconnectingflights.model.json.LegFlight;
-import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
-public class ResolvedSchedule {
+public class ResolvedSchedule implements Comparable<ResolvedSchedule> {
 
 	@JsonProperty("stops")
 	private int stops;
@@ -22,7 +20,16 @@ public class ResolvedSchedule {
 	private ResolvedSchedule(LegFlight... flights) {
 		this.flights = Arrays.asList(Objects.requireNonNull(flights)).stream().filter(s -> s != null)
 				.collect(Collectors.toList());
-		this.stops = flights.length - 1;
+		this.stops = this.flights.size() - 1;
+	}
+	
+	@Override
+	public int compareTo(ResolvedSchedule otherSchedule) {
+		if (stops < otherSchedule.stops)
+			return -1;
+		else if (stops > otherSchedule.stops)
+			return 1;
+		return 0;
 	}
 
 	@Override

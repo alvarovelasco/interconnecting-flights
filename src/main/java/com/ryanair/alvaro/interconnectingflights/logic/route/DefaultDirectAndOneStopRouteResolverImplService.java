@@ -28,7 +28,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
  *
  */
 @Service
-public class DefaultDirectAndOneStopRouteResolverImpl implements RouteResolver {
+public class DefaultDirectAndOneStopRouteResolverImplService implements RouteResolver {
 
 	@Autowired
 	private RouteProvider routeProvider;

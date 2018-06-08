@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,19 +21,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteResolver;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.ScheduleDateFlightBuilder;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.ScheduleProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.ScheduledDateFlight;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightArrivalBefore;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightDepartureAfter;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightDepartureGreaterThan;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduleDateFlightBuilder;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduleProvider;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFlight;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightArrivalBefore;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightDepartureAfter;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightDepartureGreaterThan;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
-import com.ryanair.alvaro.interconnectingflights.model.ResolvedSchedule;
+import com.ryanair.alvaro.interconnectingflights.model.json.ResolvedSchedule;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
 @Service
-public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
+public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		implements ScheduleAbsoluteRouteInterconnectionResolver {
 
 	@Autowired
@@ -72,19 +74,19 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
 		// take the next route and iterate from its schedules having >2h
 		// +arrival
 		List<ResolvedSchedule> resolvedSchedules = new ArrayList<>();
-		List<ResolvedSchedule> newResolvedSchedules;
 
-		for (ResolvedRoute resolvedRoute : resolvedRoutes) {
+		resolvedRoutes.stream().map(resolvedRoute -> {
+			List<ResolvedSchedule> newResolvedSchedules = null;
 			if (resolvedRoute.getRouteConcat().size() == 1) {
-				newResolvedSchedules = getResolvedSchedulesNonStopRoute(from, to,
-						allExistingFlightsPerRouteInTheTimeRangeProvided, resolvedRoute);
+				newResolvedSchedules = getResolvedSchedulesNonStopRoute(resolvedRoute, from, to,
+						allExistingFlightsPerRouteInTheTimeRangeProvided);
 			} else {
-				newResolvedSchedules = getResolvedSchedulesStopRoute(from, to,
-						allExistingFlightsPerRouteInTheTimeRangeProvided, resolvedRoute);
+				newResolvedSchedules = getResolvedSchedulesStopRoute(resolvedRoute,from, to,
+						allExistingFlightsPerRouteInTheTimeRangeProvided);
 			}
-
-			resolvedSchedules.addAll(newResolvedSchedules);
-		}
+			return newResolvedSchedules;
+		}).flatMap(List::stream).collect(Collectors.toCollection(() -> resolvedSchedules));
+		Collections.sort(resolvedSchedules);
 
 		return resolvedSchedules;
 	}
@@ -100,7 +102,7 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
 				if (!smf.isPresent()) {
 					return null;
 				}
-
+				
 				return smf.get().getDays().stream()
 						.map(fullScheduledDay -> scheduleDateFlightBuilder.build(existingRoute, ym, fullScheduledDay))
 						.collect(Collectors.toList());
@@ -113,9 +115,9 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
 		return allExistingFlightsPerRouteInTheTimeRangeProvided;
 	}
 
-	private List<ResolvedSchedule> getResolvedSchedulesNonStopRoute(LocalDateTime from, LocalDateTime to,
-			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided,
-			ResolvedRoute resolvedRoute) {
+	private List<ResolvedSchedule> getResolvedSchedulesNonStopRoute(ResolvedRoute resolvedRoute, LocalDateTime from, LocalDateTime to,
+			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
+			) {
 		Route r = resolvedRoute.getRouteConcat().get(0);
 
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r).stream()
@@ -131,30 +133,35 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
 	/*
 	 * Resolves the schedules in routes with stop-over
 	 */
-	private List<ResolvedSchedule> getResolvedSchedulesStopRoute(LocalDateTime from, LocalDateTime to,
-			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided,
-			ResolvedRoute resolvedRoute) {
+	private List<ResolvedSchedule> getResolvedSchedulesStopRoute(ResolvedRoute resolvedRoute, LocalDateTime from, LocalDateTime to,
+			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
+			) {
 		List<ResolvedSchedule> resolvedSchedules = new ArrayList<>();
 		Route r1 = resolvedRoute.getRouteConcat().get(0);
+		Route r2 = resolvedRoute.getRouteConcat().get(1);
 
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r1).stream()
 				.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
 				.collect(Collectors.toList());
-		final ResolvedSchedule.Builder resolvedScheduleBuilder = new ResolvedSchedule.Builder(1);
-		List<ScheduledDateFlight> newRoute2ValidInBoundaries = null;
-		Route r2 = resolvedRoute.getRouteConcat().get(1);
+		
+		final int EXPECTED_STOPS = 1;
+		final ResolvedSchedule.Builder resolvedScheduleBuilder = new ResolvedSchedule.Builder(EXPECTED_STOPS);
 
-		for (ScheduledDateFlight s : validInBoundaries) {
+		validInBoundaries.stream().forEach(s -> {
 			resolvedScheduleBuilder.addFirstRoute(r1, s.getDepartureDateTime(), s.getArrivalDateTime());
 
-			newRoute2ValidInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r2).stream()
-					.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
-					.collect(Collectors.toList());
+			// get the valid time in boundaries for the second flight
 			// Remove the schedule flights not adjusting to the offset hours
 			// between the arrival of the first flight and the departure of the
 			// second one
+			List<ScheduledDateFlight> newRoute2ValidInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r2).stream()
+					.filter(new ScheduleFlightDepartureAfter(from).
+							and(new ScheduleFlightArrivalBefore(to).
+							and(new ScheduleFlightDepartureGreaterThan(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
+					.collect(Collectors.toList());
+			// Add the second schedule flight in the second route with the remaining valid times.
 			newRoute2ValidInBoundaries.stream()
-					.filter(new ScheduleFlightDepartureGreaterThan(s, HOURS_OFFSET_FLIGHT_STOP_OVER)).map(s2 -> {
+					.map(s2 -> {
 						if (r2.equals(s2.getRoute())) {
 							resolvedScheduleBuilder.addSecondRoute(s2.getRoute(), s2.getDepartureDateTime(),
 									s2.getArrivalDateTime());
@@ -164,8 +171,8 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImpl
 					.collect(Collectors.toCollection(() -> resolvedSchedules));
 
 			resolvedScheduleBuilder.reset();
-		}
-
+		});
+		
 		return resolvedSchedules;
 	}
 

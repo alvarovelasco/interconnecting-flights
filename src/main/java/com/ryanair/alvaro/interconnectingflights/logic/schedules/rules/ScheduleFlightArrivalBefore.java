@@ -1,10 +1,10 @@
-package com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules;
+package com.ryanair.alvaro.interconnectingflights.logic.schedules.rules;
 
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDateTime;
 
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.ScheduledDateFlight;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFlight;
 
 public final class ScheduleFlightArrivalBefore implements FlightRouteRule {
 	private final LocalDateTime referenceDateTime;

@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic.scheduler;
+package com.ryanair.alvaro.interconnectingflights.logic.schedules;
 
 import static java.util.Objects.requireNonNull;
 
@@ -29,7 +29,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
 @Service
-public final class RyanairScheduleProviderImpl implements ScheduleProvider {
+public final class RyanairScheduleProviderImplService implements ScheduleProvider {
 
 	@Value("${ryanair.schedules.url}")
 	private String endpointUrl;
@@ -39,8 +39,6 @@ public final class RyanairScheduleProviderImpl implements ScheduleProvider {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Autowired
-	private MessageSource messageSource;
 
 	@Autowired
 	public void setRestTemplate(RestTemplate restTemplate) {

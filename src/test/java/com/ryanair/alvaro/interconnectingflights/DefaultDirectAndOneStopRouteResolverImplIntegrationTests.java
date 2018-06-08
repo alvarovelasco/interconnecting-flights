@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImplService;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RouteResolver;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 
 @RunWith(SpringRunner.class)
@@ -23,7 +24,7 @@ import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 public class DefaultDirectAndOneStopRouteResolverImplIntegrationTests {
 
 	@Autowired
-	private DefaultDirectAndOneStopRouteResolverImpl defaultDirectAndOneStopRouteResolverImpl;
+	private RouteResolver defaultDirectAndOneStopRouteResolverImpl;
 
 	@Test
 	public void testRyanairRouteProvider() {

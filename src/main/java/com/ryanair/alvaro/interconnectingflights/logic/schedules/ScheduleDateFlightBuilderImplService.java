@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic.scheduler;
+package com.ryanair.alvaro.interconnectingflights.logic.schedules;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -18,7 +18,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight
  *
  */
 @Service
-public final class ScheduleDateFlightBuilderImpl implements ScheduleDateFlightBuilder {
+public final class ScheduleDateFlightBuilderImplService implements ScheduleDateFlightBuilder {
 
 	@Override
 	public List<ScheduledDateFlight> build(Route route, YearMonth yearMonth, FullScheduledDay fullScheduleDay) {

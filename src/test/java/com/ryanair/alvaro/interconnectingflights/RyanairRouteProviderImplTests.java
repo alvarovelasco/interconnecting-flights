@@ -24,7 +24,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImplService;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**
@@ -47,7 +47,7 @@ public class RyanairRouteProviderImplTests {
 
 	@Autowired
 	@InjectMocks
-	private RyanairRouteProviderImpl providerImpl;
+	private RyanairRouteProviderImplService providerImpl;
 
 	@Autowired
 	RestTemplate restTemplate;

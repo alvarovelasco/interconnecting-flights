@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.RyanairScheduleProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.RyanairScheduleProviderImplService;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
@@ -42,7 +42,7 @@ public class RyanairSchedulesProviderImplTests {
 
 	@Autowired
 	@InjectMocks
-	private RyanairScheduleProviderImpl providerImpl;
+	private RyanairScheduleProviderImplService providerImpl;
 
 	@Autowired
 	RestTemplate restTemplate;

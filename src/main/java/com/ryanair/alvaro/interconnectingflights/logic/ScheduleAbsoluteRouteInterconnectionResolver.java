@@ -3,7 +3,7 @@ package com.ryanair.alvaro.interconnectingflights.logic;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.ryanair.alvaro.interconnectingflights.model.ResolvedSchedule;
+import com.ryanair.alvaro.interconnectingflights.model.json.ResolvedSchedule;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 /**

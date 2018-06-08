@@ -15,6 +15,9 @@ public class Route {
 
 	private String connectingAirport;
 
+	public static final Route get(String origin, String destination) {
+		return get(origin, destination, Optional.empty());
+	}
 	// To make it prettier and robust, this can be refactored using a builder
 	// pattern
 	public static final Route get(String origin, String destination, Optional<String> connectingAirport) {

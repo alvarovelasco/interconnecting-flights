@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.RyanairRouteProviderImplService;
 
 @SpringBootApplication
 @Import(InterconnectingFlightsApplicationConfig.class)
-@ComponentScan(basePackages = "com.ryanair.alvaro.interconnectingflights.logic")
+@ComponentScan(basePackages = "com.ryanair.alvaro.interconnectingflights")
 @PropertySource("classpath:global.properties")
 public class InterconnectingFlightsApplication {
 
@@ -24,7 +24,7 @@ public class InterconnectingFlightsApplication {
 	@Component
 	public class CommandLineAppStartupRunner implements CommandLineRunner {
 		@Autowired
-		private RyanairRouteProviderImpl routeProviderImpl;
+		private RyanairRouteProviderImplService routeProviderImpl;
 
 		@Override
 		public void run(String... args) throws Exception {

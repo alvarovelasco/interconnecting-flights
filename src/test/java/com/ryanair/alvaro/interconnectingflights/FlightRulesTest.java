@@ -10,10 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.ScheduledDateFlight;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightArrivalBefore;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightDepartureAfter;
-import com.ryanair.alvaro.interconnectingflights.logic.scheduler.rules.ScheduleFlightDepartureGreaterThan;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFlight;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightArrivalBefore;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightDepartureAfter;
+import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightDepartureGreaterThan;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
 @RunWith(MockitoJUnitRunner.class)

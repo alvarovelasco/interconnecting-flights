@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImplService;
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
@@ -34,7 +34,7 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 	private RouteProvider routeProvider;
 
 	@InjectMocks
-	private DefaultDirectAndOneStopRouteResolverImpl resolver = new DefaultDirectAndOneStopRouteResolverImpl();
+	private DefaultDirectAndOneStopRouteResolverImplService resolver = new DefaultDirectAndOneStopRouteResolverImplService();
 
 	@Before
 	public void initMocks() {

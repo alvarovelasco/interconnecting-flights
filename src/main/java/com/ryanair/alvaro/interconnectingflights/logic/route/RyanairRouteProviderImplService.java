@@ -23,7 +23,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
  *
  */
 @Service
-public final class RyanairRouteProviderImpl implements RouteProvider {
+public final class RyanairRouteProviderImplService implements RouteProvider {
 
 	@Value("${ryanair.routes.url}")
 	private String enpointUrl;
@@ -33,7 +33,7 @@ public final class RyanairRouteProviderImpl implements RouteProvider {
 	@Autowired
 	private MessageSource messageSource;
 
-	public RyanairRouteProviderImpl() {
+	public RyanairRouteProviderImplService() {
 	}
 
 	@Autowired
