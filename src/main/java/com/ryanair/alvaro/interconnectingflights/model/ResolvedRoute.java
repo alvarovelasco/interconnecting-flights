@@ -1,9 +1,9 @@
 package com.ryanair.alvaro.interconnectingflights.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import org.assertj.core.util.Lists;
 
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 
@@ -13,11 +13,11 @@ public final class ResolvedRoute {
 
 	public ResolvedRoute(Route... routes) {
 		Objects.nonNull(routes);
-		this.routeConcat = Lists.newArrayList(routes);
+		this.routeConcat = Arrays.asList(routes);
 	}
 
 	public List<Route> getRouteConcat() {
-		return Lists.newArrayList(routeConcat);
+		return new ArrayList<>(routeConcat);
 	}
 
 	@Override
@@ -44,6 +44,5 @@ public final class ResolvedRoute {
 			return false;
 		return true;
 	}
-	
-	
+
 }

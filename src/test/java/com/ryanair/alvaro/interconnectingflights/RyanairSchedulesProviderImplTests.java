@@ -1,14 +1,8 @@
 package com.ryanair.alvaro.interconnectingflights;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.time.YearMonth;
-import java.util.Map;
 import java.util.Optional;
 
 import org.junit.After;
@@ -19,11 +13,8 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
@@ -64,18 +55,6 @@ public class RyanairSchedulesProviderImplTests {
 		ScheduledMonthFlight.FullScheduledDay daySchedule = monthSchedule.getDays().get(0);
 
 		assertNotNull(daySchedule);
-	}
-
-	@Test(expected = RestClientException.class)
-	public void testRyanairScheduleProviderFailure() {
-		ResponseEntity mockResponseEntity = mock(ResponseEntity.class);
-		when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
-		when(mockTemplate.getForEntity(anyString(), eq(ScheduledMonthFlight.class), any(Map.class)))
-				.thenReturn(mockResponseEntity);
-
-		providerImpl.setRestTemplate(mockTemplate);
-
-		getScheduledFlightsDubWroInCurrentMonth();
 	}
 
 	private final ScheduledMonthFlight getScheduledFlightsDubWroInCurrentMonth() {
