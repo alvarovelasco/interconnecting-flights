@@ -54,8 +54,8 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_circularRelation() {
-		Route rightRoute = Route.get("DUB", "MAD", Optional.empty());
-		Route otherRoute = Route.get("MAD", "DUB", Optional.empty());
+		Route rightRoute = Route.get("DUB", "MAD");
+		Route otherRoute = Route.get("MAD", "DUB");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(rightRoute, otherRoute));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(1, finalRoute.size());
@@ -65,8 +65,8 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_directRoute() {
-		Route rightRoute = Route.get("DUB", "MAD", Optional.empty());
-		Route otherRoute = Route.get("DUB", "CPH", Optional.empty());
+		Route rightRoute = Route.get("DUB", "MAD");
+		Route otherRoute = Route.get("DUB", "CPH");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(rightRoute, otherRoute));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(1, finalRoute.size());
@@ -76,8 +76,8 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_connectingRoute() {
-		Route route1 = Route.get("DUB", "MAD", Optional.empty());
-		Route route2 = Route.get("MAD", "CPH", Optional.empty());
+		Route route1 = Route.get("DUB", "MAD");
+		Route route2 = Route.get("MAD", "CPH");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "CPH");
 		assertEquals(1, finalRoute.size());
@@ -87,9 +87,9 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_multipleOptionConnectingRoute() {
-		Route route1 = Route.get("DUB", "STN", Optional.empty());
-		Route route2 = Route.get("STN", "MAD", Optional.empty());
-		Route route3 = Route.get("MAD", "CPH", Optional.empty());
+		Route route1 = Route.get("DUB", "STN");
+		Route route2 = Route.get("STN", "MAD");
+		Route route3 = Route.get("MAD", "CPH");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "CPH");
 		assertEquals(0, finalRoute.size());
@@ -97,9 +97,9 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_destinationNotFound() {
-		Route route1 = Route.get("DUB", "STN", Optional.empty());
-		Route route2 = Route.get("STN", "MAD", Optional.empty());
-		Route route3 = Route.get("MAD", "CPH", Optional.empty());
+		Route route1 = Route.get("DUB", "STN");
+		Route route2 = Route.get("STN", "MAD");
+		Route route3 = Route.get("MAD", "CPH");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "BRS");
 		assertEquals(0, finalRoute.size());
@@ -107,9 +107,9 @@ public class DefaultDirectAndOneStopRouteResolverImplTests {
 
 	@Test
 	public void testRoutes_destinationNotLinked() {
-		Route route1 = Route.get("DUB", "STN", Optional.empty());
-		Route route2 = Route.get("STN", "MAD", Optional.empty());
-		Route route3 = Route.get("DUB", "CPH", Optional.empty());
+		Route route1 = Route.get("DUB", "STN");
+		Route route2 = Route.get("STN", "MAD");
+		Route route3 = Route.get("DUB", "CPH");
 		when(routeProvider.getRoutes()).thenReturn(Lists.newArrayList(route1, route2, route3));
 		List<ResolvedRoute> finalRoute = resolver.resolve("DUB", "MAD");
 		assertEquals(1, finalRoute.size());

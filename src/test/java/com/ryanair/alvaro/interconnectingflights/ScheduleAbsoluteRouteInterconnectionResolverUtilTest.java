@@ -17,7 +17,8 @@ public class ScheduleAbsoluteRouteInterconnectionResolverUtilTest {
 
 	@Test
 	public void testSameYearMonthPeriod() {
-		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.getAllYearMonthIn(LocalDate.of(2018, 6, 1),
+		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.
+				getAllYearMonthIn(LocalDate.of(2018, 6, 1),
 				LocalDate.of(2018, 6, 29));
 		assertEquals(1, yearMonths.size());
 		assertEquals(YearMonth.of(2018, 6), yearMonths.get(0));
@@ -25,7 +26,8 @@ public class ScheduleAbsoluteRouteInterconnectionResolverUtilTest {
 
 	@Test
 	public void testYearMonthThreeMonthPeriod() {
-		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.getAllYearMonthIn(LocalDate.of(2018, 6, 1),
+		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.
+				getAllYearMonthIn(LocalDate.of(2018, 6, 1),
 				LocalDate.of(2018, 9, 29));
 		assertEquals(4, yearMonths.size());
 		assertEquals(YearMonth.of(2018, 9), yearMonths.get(3));
@@ -33,7 +35,8 @@ public class ScheduleAbsoluteRouteInterconnectionResolverUtilTest {
 
 	@Test
 	public void testYearMonthTwoMonthInDifferentYearPeriod() {
-		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.getAllYearMonthIn(LocalDate.of(2018, 12, 1),
+		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.
+				getAllYearMonthIn(LocalDate.of(2018, 12, 1),
 				LocalDate.of(2019, 1, 29));
 		assertEquals(2, yearMonths.size());
 		assertEquals(YearMonth.of(2019, 1), yearMonths.get(1));
@@ -41,7 +44,8 @@ public class ScheduleAbsoluteRouteInterconnectionResolverUtilTest {
 
 	@Test
 	public void testYearMonthPeriodWithinReverseRange() {
-		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.getAllYearMonthIn(LocalDate.of(2018, 12, 1),
+		List<YearMonth> yearMonths = ScheduleAbsoluteRouteInterconnectionResolverImplService.
+				getAllYearMonthIn(LocalDate.of(2018, 12, 1),
 				LocalDate.of(2019, 11, 29));
 		assertEquals(12, yearMonths.size());
 		assertEquals(YearMonth.of(2019, 11), yearMonths.get(11));

@@ -31,12 +31,11 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplTest {
 	RestTemplate restTemplate;
 
 	@Autowired
-	@InjectMocks
 	private ScheduleAbsoluteRouteInterconnectionResolverImplService scheduleAbsoluteRouteResolverImpl;
 
 	@Test
 	public void testRyanairInterconnectionScheduleResolver() {
-		Route routeManAlc = Route.get("MAN", "ALC", Optional.empty());
+		Route routeManAlc = Route.get("MAN", "ALC");
 		LocalDateTime departure = LocalDateTime.parse("2018-06-17T06:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		LocalDateTime arrival = LocalDateTime.parse("2018-06-17T23:45", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 

@@ -58,7 +58,7 @@ public class RyanairSchedulesProviderImplTests {
 	}
 
 	private final ScheduledMonthFlight getScheduledFlightsDubWroInCurrentMonth() {
-		Route route = Route.get("DUB", "WRO", Optional.empty());
+		Route route = Route.get("DUB", "WRO");
 		YearMonth yearMonth = YearMonth.now();
 		return providerImpl.getFlights(route, yearMonth).orElse(null);
 	}

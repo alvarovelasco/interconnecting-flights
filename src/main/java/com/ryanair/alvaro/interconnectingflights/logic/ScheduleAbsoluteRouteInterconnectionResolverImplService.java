@@ -36,7 +36,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
 @Service
-public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
+public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		implements ScheduleAbsoluteRouteInterconnectionResolver {
 
 	private static Logger logger = LogManager.getLogger(ScheduleAbsoluteRouteInterconnectionResolverImplService.class); 
@@ -55,9 +55,14 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 	@Override
 	public List<ResolvedSchedule> resolve(Route route, LocalDateTime from, LocalDateTime to) {
 		requireNonNull(route);
+		final List<ResolvedSchedule> resolvedSchedules = new ArrayList<>();
 		// 1. get the routes to follow route
 		List<ResolvedRoute> resolvedRoutes = routeResolver.resolve(route.getOrigin(), route.getDestination());
-
+		
+		// No route found, why to continue
+		if (resolvedRoutes.isEmpty()) {
+			return resolvedSchedules;
+		}
 		// 2. Decompound the full routes into all possible routes.
 		Set<Route> allExistingRoutesInvolved = resolvedRoutes.stream().flatMap(rr -> rr.getRouteConcat().stream())
 				.distinct().collect(Collectors.toSet());
@@ -79,7 +84,6 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		// iterate the schedule, take the element compulsing from datetime, then
 		// take the next route and iterate from its schedules having >2h
 		// +arrival
-		List<ResolvedSchedule> resolvedSchedules = new ArrayList<>();
 
 		resolvedRoutes.stream().map(resolvedRoute -> {
 			List<ResolvedSchedule> newResolvedSchedules = null;

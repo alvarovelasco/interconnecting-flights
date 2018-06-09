@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class ScheduledDayFlight {
+public class ScheduledDayFlight {
 
 	@JsonProperty("departureTime")
 	@JsonFormat(pattern = "HH:mm")
