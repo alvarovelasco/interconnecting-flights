@@ -17,6 +17,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,8 @@ import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight
 public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		implements ScheduleAbsoluteRouteInterconnectionResolver {
 
+	private static Logger logger = LogManager.getLogger(ScheduleAbsoluteRouteInterconnectionResolverImplService.class); 
+	
 	@Autowired
 	private RouteResolver routeResolver;
 
@@ -44,7 +49,7 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 
 	@Autowired
 	private ScheduleDateFlightBuilder scheduleDateFlightBuilder;
-
+	
 	private static final int HOURS_OFFSET_FLIGHT_STOP_OVER = 2;
 
 	@Override
@@ -64,7 +69,8 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		// store in a map.
 		Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided = mapExistingRoutesInvolved(
 				allExistingRoutesInvolved, allYearMonthAppliable);
-
+		logger.debug("existing flights per route in time {}", allExistingFlightsPerRouteInTheTimeRangeProvided);
+		
 		// 5. Back to full route, in each route involved, iterate the schedule
 		// flights, and once an element compulses the from datetime, take
 		// and compare to the rest of the items in the list until an item is
@@ -87,6 +93,7 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 			return newResolvedSchedules;
 		}).flatMap(List::stream).collect(Collectors.toCollection(() -> resolvedSchedules));
 		Collections.sort(resolvedSchedules);
+		logger.debug("Resolved schedules {}", resolvedSchedules);
 
 		return resolvedSchedules;
 	}
@@ -119,11 +126,13 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
 			) {
 		Route r = resolvedRoute.getRouteConcat().get(0);
-
+		logger.debug("resolve schedules non-stop route {}", r);
+		
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r).stream()
 				.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
 				.collect(Collectors.toList());
-
+		logger.debug("Valid boundaries {} in the first route {}", validInBoundaries, r);
+		
 		return validInBoundaries.stream()
 				.map(s -> new ResolvedSchedule.Builder(0)
 						.addFirstRoute(r, s.getDepartureDateTime(), s.getArrivalDateTime()).build())
@@ -136,6 +145,7 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 	private List<ResolvedSchedule> getResolvedSchedulesStopRoute(ResolvedRoute resolvedRoute, LocalDateTime from, LocalDateTime to,
 			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
 			) {
+		logger.debug("resolved Schedules one-stop routes {} ", resolvedRoute);
 		List<ResolvedSchedule> resolvedSchedules = new ArrayList<>();
 		Route r1 = resolvedRoute.getRouteConcat().get(0);
 		Route r2 = resolvedRoute.getRouteConcat().get(1);
@@ -143,6 +153,8 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r1).stream()
 				.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
 				.collect(Collectors.toList());
+
+		logger.debug("Valid boundaries {} in the first route {}", validInBoundaries, r1);
 		
 		final int EXPECTED_STOPS = 1;
 		final ResolvedSchedule.Builder resolvedScheduleBuilder = new ResolvedSchedule.Builder(EXPECTED_STOPS);
@@ -159,6 +171,7 @@ public final class ScheduleAbsoluteRouteInterconnectionResolverImplService
 							and(new ScheduleFlightArrivalBefore(to).
 							and(new ScheduleFlightDepartureGreaterThan(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
 					.collect(Collectors.toList());
+			logger.debug("Valid boundaries {} in the second route {}", newRoute2ValidInBoundaries, r2);
 			// Add the second schedule flight in the second route with the remaining valid times.
 			newRoute2ValidInBoundaries.stream()
 					.map(s2 -> {

@@ -19,6 +19,12 @@ public final class ResolvedRoute {
 	public List<Route> getRouteConcat() {
 		return new ArrayList<>(routeConcat);
 	}
+	
+
+	@Override
+	public String toString() {
+		return "ResolvedRoute [routeConcat=" + routeConcat + "]";
+	}
 
 	@Override
 	public int hashCode() {
