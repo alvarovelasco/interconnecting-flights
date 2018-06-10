@@ -10,21 +10,16 @@ public final class ScheduleFlightDepartureAfter implements FlightRouteRule {
 
 	private final LocalDateTime referenceDateTime;
 
-	private final int hoursOffset;
-
-	public ScheduleFlightDepartureAfter(LocalDateTime referenceDateTime) {
-		this(referenceDateTime, 0);
+	private ScheduleFlightDepartureAfter(LocalDateTime referenceDateTime) {
+		this.referenceDateTime = requireNonNull(referenceDateTime);
 	}
 
-	public ScheduleFlightDepartureAfter(LocalDateTime referenceDateTime, int hourOffset) {
-		this.referenceDateTime = requireNonNull(referenceDateTime);
-		this.hoursOffset = hourOffset;
+	public static FlightRouteRule at(LocalDateTime reference) {
+		return new ScheduleFlightDepartureAfter(reference);
 	}
 
 	@Override
 	public boolean test(ScheduledDateFlight f) {
-		LocalDateTime dateTime = referenceDateTime.plusHours(hoursOffset);
-
-		return f.getDepartureDateTime().isAfter(dateTime);
+		return f.getDepartureDateTime().isAfter(referenceDateTime);
 	}
 }

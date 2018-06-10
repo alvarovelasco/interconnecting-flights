@@ -9,21 +9,16 @@ import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFl
 public final class ScheduleFlightArrivalBefore implements FlightRouteRule {
 	private final LocalDateTime referenceDateTime;
 
-	private final int hoursOffset;
-
-	public ScheduleFlightArrivalBefore(LocalDateTime referenceDateTime) {
-		this(referenceDateTime, 0);
+	private ScheduleFlightArrivalBefore(LocalDateTime referenceDateTime) {
+		this.referenceDateTime = requireNonNull(referenceDateTime);
 	}
 
-	public ScheduleFlightArrivalBefore(LocalDateTime referenceDateTime, int hourOffset) {
-		this.referenceDateTime = requireNonNull(referenceDateTime);
-		this.hoursOffset = hourOffset;
+	public static FlightRouteRule at(LocalDateTime reference) {
+		return new ScheduleFlightArrivalBefore(reference);
 	}
 
 	@Override
 	public boolean test(ScheduledDateFlight f) {
-		LocalDateTime dateTime = referenceDateTime.plusHours(hoursOffset);
-
-		return f.getArrivalDateTime().isBefore(dateTime);
+		return f.getArrivalDateTime().isBefore(referenceDateTime);
 	}
 }

@@ -133,7 +133,7 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		logger.debug("resolve schedules non-stop route {}", r);
 		
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r).stream()
-				.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
+				.filter(ScheduleFlightDepartureAfter.at(from).and(ScheduleFlightArrivalBefore.at(to)))
 				.collect(Collectors.toList());
 		logger.debug("Valid boundaries {} in the first route {}", validInBoundaries, r);
 		
@@ -155,7 +155,7 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		Route r2 = resolvedRoute.getRouteConcat().get(1);
 
 		List<ScheduledDateFlight> validInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r1).stream()
-				.filter(new ScheduleFlightDepartureAfter(from).and(new ScheduleFlightArrivalBefore(to)))
+				.filter(ScheduleFlightDepartureAfter.at(from).and(ScheduleFlightArrivalBefore.at(to)))
 				.collect(Collectors.toList());
 
 		logger.debug("Valid boundaries {} in the first route {}", validInBoundaries, r1);
@@ -171,9 +171,9 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 			// between the arrival of the first flight and the departure of the
 			// second one
 			List<ScheduledDateFlight> newRoute2ValidInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r2).stream()
-					.filter(new ScheduleFlightDepartureAfter(from).
-							and(new ScheduleFlightArrivalBefore(to).
-							and(new ScheduleFlightDepartureGreaterThan(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
+					.filter(ScheduleFlightDepartureAfter.at(from).
+							and(ScheduleFlightArrivalBefore.at(to).
+							and(ScheduleFlightDepartureGreaterThan.at(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
 					.collect(Collectors.toList());
 			logger.debug("Valid boundaries {} in the second route {}", newRoute2ValidInBoundaries, r2);
 			// Add the second schedule flight in the second route with the remaining valid times.

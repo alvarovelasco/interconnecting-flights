@@ -12,19 +12,27 @@ public class ScheduleFlightDepartureGreaterThan implements FlightRouteRule {
 
 	private final int hoursOffset;
 
-	public ScheduleFlightDepartureGreaterThan(ScheduledDateFlight previousFlight) {
+	private ScheduleFlightDepartureGreaterThan(ScheduledDateFlight previousFlight) {
 		this(previousFlight, 0);
 	}
 
-	public ScheduleFlightDepartureGreaterThan(ScheduledDateFlight previousFlight, int hourOffset) {
+	private ScheduleFlightDepartureGreaterThan(ScheduledDateFlight previousFlight, int hourOffset) {
 		this.previousFlight = requireNonNull(previousFlight);
 		this.hoursOffset = hourOffset;
+	}
+
+	public static FlightRouteRule at(ScheduledDateFlight previousFlight) {
+		return new ScheduleFlightDepartureGreaterThan(previousFlight);
+	}
+
+	public static FlightRouteRule at(ScheduledDateFlight previousFlight, int hourOffset) {
+		return new ScheduleFlightDepartureGreaterThan(previousFlight, hourOffset);
 	}
 
 	@Override
 	public boolean test(ScheduledDateFlight f) {
 		LocalDateTime dateTime = previousFlight.getArrivalDateTime().plusHours(hoursOffset);
-		return new ScheduleFlightDepartureAfter(dateTime).test(f);
+		return ScheduleFlightDepartureAfter.at(dateTime).test(f);
 	}
 
 }

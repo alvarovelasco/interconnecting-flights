@@ -21,55 +21,65 @@ public class FlightRulesTest {
 
 	@Test
 	public void testArrivalBeforeRule() {
-		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 0, 0), LocalDateTime.of(2000, 1, 1, 0, 30));
+		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 0, 30));
 
-		assertTrue(new ScheduleFlightArrivalBefore(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
+		assertTrue(ScheduleFlightArrivalBefore.at(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
 	}
 
 	@Test
 	public void testArrivalBeforeRule_negativeResponse() {
-		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 0, 0), LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
 
-		assertFalse(new ScheduleFlightArrivalBefore(LocalDateTime.of(2000, 1, 1, 2, 0)).test(sdf));
-		assertFalse(new ScheduleFlightArrivalBefore(LocalDateTime.of(2000, 1, 1, 2, 30)).test(sdf));
+		assertFalse(ScheduleFlightArrivalBefore.at(LocalDateTime.of(2000, 1, 1, 2, 0)).test(sdf));
+		assertFalse(ScheduleFlightArrivalBefore.at(LocalDateTime.of(2000, 1, 1, 2, 30)).test(sdf));
 	}
 
 	@Test
 	public void testDepartureAfterRule() {
-		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 2, 0), LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 2, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
 
-		assertTrue(new ScheduleFlightDepartureAfter(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
+		assertTrue(ScheduleFlightDepartureAfter.at(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
 	}
 
 	@Test
 	public void testDepartureAfterRule_negativeResponse() {
-		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 0, 0), LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
 
-		assertFalse(new ScheduleFlightDepartureAfter(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
-		assertFalse(new ScheduleFlightDepartureAfter(LocalDateTime.of(2000, 1, 1, 0, 0)).test(sdf));
+		assertFalse(ScheduleFlightDepartureAfter.at(LocalDateTime.of(2000, 1, 1, 1, 0)).test(sdf));
+		assertFalse(ScheduleFlightDepartureAfter.at(LocalDateTime.of(2000, 1, 1, 0, 0)).test(sdf));
 	}
 
 	@Test
 	public void testTwoConsecutiveFlights_noOffset() {
-		ScheduledDateFlight sdf1 = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 0, 0), LocalDateTime.of(2000, 1, 1, 2, 30));
-		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"),
-				LocalDateTime.of(2000, 1, 1, 2, 31), LocalDateTime.of(2000, 1, 1, 3, 30));
+		ScheduledDateFlight sdf1 = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 2, 31),
+				LocalDateTime.of(2000, 1, 1, 3, 30));
 
-		assertTrue(new ScheduleFlightDepartureGreaterThan(sdf1).test(sdf2));
+		assertTrue(ScheduleFlightDepartureGreaterThan.at(sdf1).test(sdf2));
 	}
 
 	@Test
 	public void testTwoConsecutiveFlights_2HourOffset() {
-		ScheduledDateFlight sdf1 = new ScheduledDateFlight(Route.get("TEST", "SUC"),
-				LocalDateTime.of(2000, 1, 1, 0, 0), LocalDateTime.of(2000, 1, 1, 2, 30));
-		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"),
-				LocalDateTime.of(2000, 1, 1, 5, 30), LocalDateTime.of(2000, 1, 1, 6, 30));
+		ScheduledDateFlight sdf1 = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 5, 30),
+				LocalDateTime.of(2000, 1, 1, 6, 30));
 
-		assertTrue(new ScheduleFlightDepartureGreaterThan(sdf1, 2).test(sdf2));
+		assertTrue(ScheduleFlightDepartureGreaterThan.at(sdf1, 2).test(sdf2));
+	}
+	
+	@Test
+	public void testTwoConsecutiveFlights_1HourOffset_badConnection() {
+		ScheduledDateFlight sdf1 = new ScheduledDateFlight(Route.get("TEST", "SUC"), LocalDateTime.of(2000, 1, 1, 0, 0),
+				LocalDateTime.of(2000, 1, 1, 2, 30));
+		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 2, 45),
+				LocalDateTime.of(2000, 1, 1, 6, 30));
+
+		assertFalse(ScheduleFlightDepartureGreaterThan.at(sdf1, 1).test(sdf2));
 	}
 }
