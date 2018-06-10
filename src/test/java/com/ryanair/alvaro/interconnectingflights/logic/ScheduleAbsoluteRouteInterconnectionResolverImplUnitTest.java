@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -23,9 +23,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.ryanair.alvaro.interconnectingflights.TestConfig;
 import com.ryanair.alvaro.interconnectingflights.logic.ScheduleAbsoluteRouteInterconnectionResolverImplService;
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteResolver;
-import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduleProvider;
 import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFlight;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.json.ResolvedSchedule;
@@ -33,6 +33,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledDayFlight;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight.FullScheduledDay;
+import com.ryanair.alvaro.interconnectingflights.provider.ScheduleProvider;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

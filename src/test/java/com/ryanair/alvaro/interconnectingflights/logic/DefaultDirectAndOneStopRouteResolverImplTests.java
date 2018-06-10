@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.logic;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,9 +17,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.DefaultDirectAndOneStopRouteResolverImplService;
-import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
+import com.ryanair.alvaro.interconnectingflights.provider.RouteProvider;
 
 /**
  * Unit testing DefaultDirectAndStopRouteResolver class in user cases

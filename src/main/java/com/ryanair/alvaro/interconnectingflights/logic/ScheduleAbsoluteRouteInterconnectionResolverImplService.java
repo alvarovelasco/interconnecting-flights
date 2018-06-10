@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import com.ryanair.alvaro.interconnectingflights.logic.route.RouteResolver;
 import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduleDateFlightBuilder;
-import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduleProvider;
 import com.ryanair.alvaro.interconnectingflights.logic.schedules.ScheduledDateFlight;
 import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightArrivalBefore;
 import com.ryanair.alvaro.interconnectingflights.logic.schedules.rules.ScheduleFlightDepartureAfter;
@@ -34,6 +33,7 @@ import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.json.ResolvedSchedule;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
+import com.ryanair.alvaro.interconnectingflights.provider.ScheduleProvider;
 
 @Service
 public class ScheduleAbsoluteRouteInterconnectionResolverImplService

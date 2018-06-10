@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights;
+package com.ryanair.alvaro.interconnectingflights.provider;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -17,10 +17,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import com.ryanair.alvaro.interconnectingflights.logic.route.RouteProvider;
-import com.ryanair.alvaro.interconnectingflights.logic.schedules.RyanairScheduleProviderImplService;
+import com.ryanair.alvaro.interconnectingflights.TestConfig;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
+import com.ryanair.alvaro.interconnectingflights.provider.RouteProvider;
+import com.ryanair.alvaro.interconnectingflights.provider.RyanairScheduleProviderImplService;
 
 /**
  * Unit test class of RyanairScheduleProviderImpl class.

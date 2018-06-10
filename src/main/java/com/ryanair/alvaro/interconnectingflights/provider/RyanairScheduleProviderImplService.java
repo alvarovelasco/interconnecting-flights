@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic.schedules;
+package com.ryanair.alvaro.interconnectingflights.provider;
 
 import static java.util.Objects.requireNonNull;
 

@@ -1,4 +1,4 @@
-package com.ryanair.alvaro.interconnectingflights.logic.schedules;
+package com.ryanair.alvaro.interconnectingflights.provider;
 
 import java.time.YearMonth;
 import java.util.Optional;

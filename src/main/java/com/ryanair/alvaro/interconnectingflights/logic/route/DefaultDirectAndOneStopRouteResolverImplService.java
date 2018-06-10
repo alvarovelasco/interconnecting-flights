@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ryanair.alvaro.interconnectingflights.model.ResolvedRoute;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
+import com.ryanair.alvaro.interconnectingflights.provider.RouteProvider;
 
 /**
  * 
