@@ -173,7 +173,7 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 			List<ScheduledDateFlight> newRoute2ValidInBoundaries = allExistingFlightsPerRouteInTheTimeRangeProvided.get(r2).stream()
 					.filter(ScheduleFlightDepartureAfter.at(from).
 							and(ScheduleFlightArrivalBefore.at(to).
-							and(ScheduleFlightDepartureGreaterThan.at(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
+							and(ScheduleFlightDepartureGreaterThan.previousFlight(s, HOURS_OFFSET_FLIGHT_STOP_OVER))))
 					.collect(Collectors.toList());
 			logger.debug("Valid boundaries {} in the second route {}", newRoute2ValidInBoundaries, r2);
 			// Add the second schedule flight in the second route with the remaining valid times.

@@ -21,12 +21,12 @@ public class ScheduleFlightDepartureGreaterThan implements FlightRouteRule {
 		this.hoursOffset = hourOffset;
 	}
 
-	public static FlightRouteRule at(ScheduledDateFlight previousFlight) {
-		return new ScheduleFlightDepartureGreaterThan(previousFlight);
+	public static FlightRouteRule previousFlight(ScheduledDateFlight flight) {
+		return new ScheduleFlightDepartureGreaterThan(flight);
 	}
 
-	public static FlightRouteRule at(ScheduledDateFlight previousFlight, int hourOffset) {
-		return new ScheduleFlightDepartureGreaterThan(previousFlight, hourOffset);
+	public static FlightRouteRule previousFlight(ScheduledDateFlight flight, int hourOffset) {
+		return new ScheduleFlightDepartureGreaterThan(flight, hourOffset);
 	}
 
 	@Override

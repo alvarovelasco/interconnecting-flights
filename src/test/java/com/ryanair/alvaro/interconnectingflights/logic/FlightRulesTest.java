@@ -60,7 +60,7 @@ public class FlightRulesTest {
 		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 2, 31),
 				LocalDateTime.of(2000, 1, 1, 3, 30));
 
-		assertTrue(ScheduleFlightDepartureGreaterThan.at(sdf1).test(sdf2));
+		assertTrue(ScheduleFlightDepartureGreaterThan.previousFlight(sdf1).test(sdf2));
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class FlightRulesTest {
 		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 5, 30),
 				LocalDateTime.of(2000, 1, 1, 6, 30));
 
-		assertTrue(ScheduleFlightDepartureGreaterThan.at(sdf1, 2).test(sdf2));
+		assertTrue(ScheduleFlightDepartureGreaterThan.previousFlight(sdf1, 2).test(sdf2));
 	}
 	
 	@Test
@@ -80,6 +80,6 @@ public class FlightRulesTest {
 		ScheduledDateFlight sdf2 = new ScheduledDateFlight(Route.get("SUC", "PLA"), LocalDateTime.of(2000, 1, 1, 2, 45),
 				LocalDateTime.of(2000, 1, 1, 6, 30));
 
-		assertFalse(ScheduleFlightDepartureGreaterThan.at(sdf1, 1).test(sdf2));
+		assertFalse(ScheduleFlightDepartureGreaterThan.previousFlight(sdf1, 1).test(sdf2));
 	}
 }
