@@ -83,8 +83,9 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 		// * If the full route has stop-over, apply different function:
 		// iterate the schedule, take the element compulsing from datetime, then
 		// take the next route and iterate from its schedules having >2h
-		// +arrival
-
+		// +arrival TODO Alvaro: this coming block of code should be extracted into a factory class for unit testing.
+		
+		
 		resolvedRoutes.stream().map(resolvedRoute -> {
 			List<ResolvedSchedule> newResolvedSchedules = null;
 			if (resolvedRoute.getRouteConcat().size() == 1) {
@@ -125,7 +126,10 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 
 		return allExistingFlightsPerRouteInTheTimeRangeProvided;
 	}
-
+/*TODO ALVARO: should be abstracted from an interfsce so that the class
+* resulting ScheduleNonStopRoute can be injected in the factory class
+* mentioned above.
+*/ 
 	private List<ResolvedSchedule> getResolvedSchedulesNonStopRoute(ResolvedRoute resolvedRoute, LocalDateTime from, LocalDateTime to,
 			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
 			) {
@@ -145,6 +149,9 @@ public class ScheduleAbsoluteRouteInterconnectionResolverImplService
 
 	/*
 	 * Resolves the schedules in routes with stop-over
+	 * TODO ALVARO: should be abstracted from an interfsce 
+	 * as a class ScheduleOneStopRouteImpl that's injected in the 
+	 * factory class mentioned above.
 	 */
 	private List<ResolvedSchedule> getResolvedSchedulesStopRoute(ResolvedRoute resolvedRoute, LocalDateTime from, LocalDateTime to,
 			Map<Route, List<ScheduledDateFlight>> allExistingFlightsPerRouteInTheTimeRangeProvided
