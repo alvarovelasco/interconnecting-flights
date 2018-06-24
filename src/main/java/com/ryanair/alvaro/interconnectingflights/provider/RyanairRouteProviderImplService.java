@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +23,7 @@ import com.ryanair.alvaro.interconnectingflights.model.json.Route;
  * @author Alvaro Velasco Fernandez
  *
  */
-@Service
+@Repository
 public final class RyanairRouteProviderImplService implements RouteProvider {
 
 	@Value("${ryanair.routes.url}")

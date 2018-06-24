@@ -12,6 +12,10 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.ryanair.alvaro.interconnectingflights.logic.NonStopScheduleResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.OneStopScheduleResolverImpl;
+import com.ryanair.alvaro.interconnectingflights.logic.ScheduleResolver;
+
 @Configuration
 public class InterconnectingFlightsApplicationConfig {
 
@@ -38,4 +42,13 @@ public class InterconnectingFlightsApplicationConfig {
 		return slr;
 	}
 	
+	@Bean
+	public ScheduleResolver nonStopScheduleResolver(){
+		return new NonStopScheduleResolverImpl();
+	}
+	
+	@Bean
+	public ScheduleResolver oneStopScheduleResolver(){
+		return new OneStopScheduleResolverImpl();
+	}
 }

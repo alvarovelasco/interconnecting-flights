@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ import com.ryanair.alvaro.interconnectingflights.exceptions.ScheduleException;
 import com.ryanair.alvaro.interconnectingflights.model.json.Route;
 import com.ryanair.alvaro.interconnectingflights.model.json.ScheduledMonthFlight;
 
-@Service
+@Repository
 public final class RyanairScheduleProviderImplService implements ScheduleProvider {
 
 	@Value("${ryanair.schedules.url}")
